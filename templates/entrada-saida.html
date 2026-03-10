@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Entrada e Saída - Almoxarifado</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../static/scripts.js"></script>
+</head>
+<script>
+document.querySelector("button").onclick = function() {
+
+    var tipo = document.getElementById("tipo").value;
+    var nome = document.getElementById("nomeItem").value;
+    var quantidade = document.getElementById("quantidade").value;
+
+    var lista = document.getElementById("historico");
+
+    lista.innerHTML += "<li>" + tipo + " - " + nome + " - " + quantidade + "</li>";
+    // SALVAR NO LOCALSTORAGE
+var historico = localStorage.getItem("historico") || "";
+historico += tipo + " - " + nome + " - " + quantidade + "|";
+localStorage.setItem("historico", historico);
+
+
+}
+</script>
+<body>
+
+<div class="sidebar">
+    <h2>SENAI</h2>
+    <a href="home.html">Home</a>
+    <a href="novos-itens.html">Novos Itens</a>
+    <a href="entrada-saida.html">Entrada e Saída</a>
+    <a href="login.html">Login</a>
+</div>
+
+<div class="main">
+    <h1>Registrar Entrada e Saída</h1>
+
+    <div class="card">
+        <label>Tipo de Movimentação:</label><br>
+        <select id="tipo">
+            <option>Entrada</option>
+            <option>Saída</option>
+        </select><br><br>
+
+        <label>Nome do Item:</label><br>
+        <input id="nomeitem" type="text" placeholder="Nome do Item"><br><br>
+
+        <label>Quantidade:</label><br>
+        <input id="qtde" type="number" placeholder="Quantidade"><br><br>
+
+        <button onclick="teste2()">Registrar Movimentação</button>
+    </div>
+    <ul id="historico"></ul>
+    <div class="card">
+    <h2>Histórico</h2>
+    <ul id="historico-lista">
+    </ul>
+</div>
+</div>
+
+</body>
+</html>
