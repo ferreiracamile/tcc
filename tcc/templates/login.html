@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<title>Login SENAI</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, sans-serif;
+}
+
+body{
+  height:100vh;
+}
+
+.container{
+  display:flex;
+  height:100vh;
+}
+
+/* LADO ESQUERDO */
+.left{
+  width:55%;
+  background:
+  linear-gradient(rgba(11,31,94,0.6), rgba(11,31,94,0.6)),
+  url("../static/image.png");
+  background-size:cover;
+  background-position:center;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:white;
+  text-align:center;
+  padding:40px;
+}
+
+.left h1{
+  font-size:55px;
+  margin-bottom:20px;
+}
+
+.left p{
+  font-size:22px;
+}
+
+/* LADO DIREITO */
+.right{
+  width:45%;
+  background:#0f2152;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.box{
+  background:white;
+  padding:50px;
+  border-radius:20px;
+  width:380px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+
+.box h2{
+  text-align:center;
+  margin-bottom:30px;
+  color:#0B1F5E;
+  font-size:35px;
+}
+
+input{
+  width:100%;
+  padding:15px;
+  margin:12px 0;
+  border-radius:10px;
+  font-size:15px;
+}
+
+.check{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  margin-top:10px;
+  color:#0B1F5E;
+  font-size:18px;
+}
+
+.check input{
+  width:auto;
+  transform:translateY(10px);
+  margin:0;
+}
+
+button{
+  width:100%;
+  padding:15px;
+  margin-top:15px;
+  border:none;
+  border-radius:10px;
+  background:#FF7A00;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+button:hover{
+  background:#e96d00;
+  transform:scale(1.02);
+}
+
+@media(max-width:900px){
+
+  .container{
+    flex-direction:column;
+  }
+
+  .left,
+  .right{
+    width:100%;
+    height:50vh;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- ESQUERDA -->
+  <div class="left">
+    <div>
+      <h1>SENAI</h1>
+    </div>
+  </div>
+
+  <!-- DIREITA -->
+  <div class="right">
+
+    <div class="box">
+
+      <h2>Login</h2>
+
+      <input type="text" placeholder="Usuário">
+
+      <input type="password" placeholder="Senha">
+
+      <div class="check">
+      <br> ADM </br>
+      <input type="checkbox" id="adm"> 
+      </div>
+
+      <button onclick="entrar()">Entrar</button>
+
+      <button  onclick="criarConta()">Criar conta</button>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+function entrar(){
+  window.location.href = "home.html";
+}
+
+function criarConta(){
+  if(document.getElementById("adm").checked){
+    window.location.href = "administrador.html";
+  }
+}
+</script>
+
+</body>
+</html>

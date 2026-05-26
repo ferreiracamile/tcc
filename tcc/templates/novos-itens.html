@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Novos Itens - Almoxarifado</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../static/scripts.js"></script>
+    
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>SENAI</h2>
+    <a href="home.html">Home</a>
+    <a href="novos-itens.html">Novos Itens</a>
+    <a href="entrada-saida.html">Entrada e Saída</a>
+    <a href="login.html">Login</a>
+</div>
+
+<div class="main">
+    <h1>Cadastro de Novos Itens</h1>
+
+    <div class="card">
+        <label>Nome do Item:</label><br>
+        <input id="nomeitem" type="text" placeholder="Nome do Item"><br><br>
+
+        <label>Quantidade Inicial:</label><br>
+        <input id="qtde" type="number" placeholder="Quantidade"><br><br>
+
+        <label>Categoria:</label><br>
+        <input type="text" placeholder="Categoria"><br><br>
+
+        <button onclick="teste()">Cadastrar Item</button>
+    </div>
+
+    <div class="card">
+        <h2>Itens Cadastrados</h2>
+        <p id="tabeladeitens"></p>
+    </div>
+</div>
+
+</body>
+</html>

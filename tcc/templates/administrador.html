@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Administrador</title>
+
+<style>
+
+body{
+    margin:0;
+    font-family:Arial;
+    background:#0B1F5E;
+    height:100vh;
+}
+
+.container{
+    width:800px;
+    height:500px;
+    background:white;
+    border-radius:20px;
+    display:flex;
+    overflow:hidden;
+
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%, -50%);
+}
+
+/* esquerda */
+
+.left{
+    width:40%;
+    background:#0d2268;
+    color:white;
+    padding:30px;
+}
+
+.left h1{
+    font-size:50px;
+}
+
+.left span{
+    color:orange;
+}
+
+.left h2{
+    margin-top:40px;
+}
+
+.left p{
+    margin-top:20px;
+    line-height:25px;
+}
+
+/* direita */
+
+.right{
+    width:60%;
+    padding:40px;
+}
+
+.right h1{
+    color:#0B1F5E;
+}
+
+.input-box{
+    margin-top:20px;
+}
+
+.input-box input{
+    width:100%;
+    padding:15px;
+    border-radius:10px;
+    border:1px solid gray;
+    margin-top:8px;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    margin-top:30px;
+    border:none;
+    border-radius:10px;
+    background:orange;
+    color:white;
+    font-size:18px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#ff9100;
+}
+
+.voltar{
+    text-align:center;
+    margin-top:20px;
+}
+
+.voltar a{
+    text-decoration:none;
+    color:#0B1F5E;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+    <div class="left">
+
+        <h1>SENAI</h1>
+
+        <h2>Painel ADM</h2>
+
+        <p>
+            Área do administrador do sistema SENAI.
+        </p>
+
+    </div>
+
+    <div class="right">
+
+        <h1>Criar Conta ADM</h1>
+
+        <div class="input-box">
+            <label>Usuário</label>
+            <input type="text">
+        </div>
+
+        <div class="input-box">
+            <label>Email</label>
+            <input type="email">
+        </div>
+
+        <div class="input-box">
+            <label>Senha</label>
+            <input type="password">
+        </div>
+
+        <button onclick="entrarHome()">
+            Criar Conta
+        </button>
+
+        <div class="voltar">
+            <a href="login.html">Voltar</a>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+function entrarHome(){
+    window.location.href = "home.html";
+}
+
+</script>
+
+</body>
+</html>
