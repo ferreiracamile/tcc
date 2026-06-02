@@ -25,18 +25,13 @@ def administrador():
     return render_template ("/administrador.html")
 
 if __name__ == "__main__":
-app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0', debug=True)
 
 from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(__name__)
 
-# Chave de segurança da sessão
 app.secret_key = "senha_super_secreta"
-
-# =========================================
-# BANCO TEMPORÁRIO (depois você troca por BD)
-# =========================================
 
 usuarios = {
     "admin": {
@@ -49,17 +44,9 @@ usuarios = {
     }
 }
 
-# =========================================
-# LOGIN
-# =========================================
-
 @app.route("/")
 def login():
     return render_template("login.html")
-
-# =========================================
-# VALIDAR LOGIN
-# =========================================
 
 @app.route("/logar", methods=["POST"])
 def logar():
@@ -87,11 +74,6 @@ def logar():
 
     return "Usuário ou senha inválidos"
 
-
-# =========================================
-# HOME
-# =========================================
-
 @app.route("/home.html")
 def home():
 
@@ -100,11 +82,6 @@ def home():
         return redirect(url_for("login"))
 
     return render_template("home.html")
-
-
-# =========================================
-# ADMIN
-# =========================================
 
 @app.route("/administrador.html")
 def administrador():
@@ -119,11 +96,6 @@ def administrador():
 
     return render_template("administrador.html")
 
-
-# =========================================
-# ENTRADA E SAÍDA
-# =========================================
-
 @app.route("/entrada-saida.html")
 def entradasaida():
 
@@ -131,11 +103,6 @@ def entradasaida():
         return redirect(url_for("login"))
 
     return render_template("entrada-saida.html")
-
-
-# =========================================
-# NOVOS ITENS
-# =========================================
 
 @app.route("/novos-itens.html")
 def novositens():
@@ -145,19 +112,9 @@ def novositens():
 
     return render_template("novos-itens.html")
 
-
-# =========================================
-# CRIAR CONTA
-# =========================================
-
 @app.route("/criar-conta.html")
 def criarconta():
     return render_template("criar-conta.html")
-
-
-# =========================================
-# SALVAR NOVA CONTA
-# =========================================
 
 @app.route("/cadastrar", methods=["POST"])
 def cadastrar():
@@ -174,22 +131,12 @@ def cadastrar():
 
     return redirect(url_for("login"))
 
-
-# =========================================
-# LOGOUT
-# =========================================
-
 @app.route("/logout")
 def logout():
 
     session.clear()
 
     return redirect(url_for("login"))
-
-
-# =========================================
-# INICIAR APP
-# =========================================
 
 if __name__ == "__main__":
     app.run(debug=True)

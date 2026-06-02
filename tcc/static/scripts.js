@@ -30,3 +30,54 @@ function alerta(){
   draggable: true
 });
 }
+
+function entrar(){
+  window.location.href = "home.html";
+}
+
+function criarConta(){
+  if(document.getElementById("adm").checked){
+    window.location.href = "administrador.html";
+  }
+}
+
+function entrarHome(){
+    window.location.href = "home.html";
+}
+
+function entrar() {
+    alert("Login realizado");
+    window.location = "home.html";
+}
+
+function criarConta() {
+    window.location = "criar-conta.html";
+}
+
+function cadastrarItem() {
+
+    var nome = document.getElementById("nome-item").value;
+
+    if(nome == "") {
+        alert("Digite o nome do item");
+        return;
+    }
+
+    alert("Item cadastrado!");
+}
+
+function entradaItem() {
+    alert("Entrada registrada!");
+}
+
+function saidaItem() {
+    alert("Saída registrada!");
+}
+
+function criarUsuario() {
+    alert("Usuário criado!");
+}
+
+function logout() {
+    window.location = "login.html";
+}
