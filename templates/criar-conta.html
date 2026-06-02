@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../static/styleadm.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="../static/scripts.js"></script>
+
+<title>Administrador</title>
+
+</head>
+<body>
+
+<div class="container">
+
+    <div class="left">
+
+        <h1>SENAI</h1>
+
+        <h2>Painel ADM</h2>
+
+        <p>
+            Área do administrador do sistema SENAI.
+        </p>
+
+    </div>
+
+    <div class="right">
+
+        <h1>Criar Conta ADM</h1>
+
+        <form method="POST" action="/cadastrar">
+
+    <div class="input-box">
+        <label>Usuário</label>
+        <input type="text" name="usuario" required>
+    </div>
+
+    <div class="input-box">
+        <label>Email</label>
+        <input type="email" name="email" required>
+    </div>
+
+    <div class="input-box">
+        <label>Senha</label>
+        <input type="password" name="senha" required>
+    </div>
+
+    <button type="submit">
+        Criar Conta
+    </button>
+
+</form>
+
+        <div class="voltar">
+            <a href="/">Voltar</a>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

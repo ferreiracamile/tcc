@@ -1,65 +1,48 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    
-    <img src="../static/login.PNG" width="2000" height="1000">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tela de Login</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f2f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .login-container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-        .login-container h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .login-container input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box; /* Garante padding correto */
-        }
-        .login-container button {
-            width: 100%;
-            padding: 10px;
-            background-color: #007bff;
-            border: none;
-            border-radius: 4px;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        .login-container button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../static/stylelogin.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<script src="../static/scripts.js"></script>
+<title>Login SENAI</title>
+
 </head>
+
 <body>
-    
-    <div class="login-container" style="position: absolute; left: 720PX; top: 600px;">
-        <h2>Login</h2>
-        <form action="home.html" method="post">
-            <input type="text" name="usuario" placeholder="Usuário" required>
-            <input type="password" name="senha" placeholder="Senha" required>
-        </form>
-        <a href="home.html">
-            <button type="button">Entrar</button>
-        </a>
+
+<div class="container">
+
+  <!-- ESQUERDA -->
+  <div class="left">
+    <div>
+      <h1>SENAI</h1>
     </div>
+  </div>
+
+  <!-- DIREITA -->
+  <div class="right">
+
+    <div class="box">
+
+      <h2>Login</h2>
+
+      <input type="text" placeholder="Usuário">
+
+      <input type="password" placeholder="Senha">
+
+      <div class="check">
+      <br> ADM </br>
+      <input type="checkbox" id="adm"> 
+      </div>
+
+      <button onclick="entrar()">Entrar</button>
+
+      <button  onclick="criarConta()">Criar conta</button>
+    </div>
+
+  </div>
+
+</div>
 </body>
 </html>
