@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for, session
 app = Flask(__name__)
 
 @app.route("/")
@@ -26,10 +26,6 @@ def administrador():
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
-
-from flask import Flask, render_template, request, redirect, url_for, session
-
-app = Flask(__name__)
 
 app.secret_key = "senha_super_secreta"
 
