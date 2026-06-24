@@ -26,18 +26,18 @@
     <div class="box">
 
       <h2>Login</h2>
-
+      <form action="/home.html" method="POST">
       <input type="text" placeholder="Usuário">
 
-      <input type="password" placeholder="Senha">
+      <input type="password" placeholder="Senha" name="senha">
 
       <div class="check">
       <br> ADM </br>
       <input type="checkbox" id="adm"> 
       </div>
 
-      <button onclick="entrar()">Entrar</button>
-
+      <button type="submit">Entrar</button>
+      </form>
       <button  onclick="criarConta()">Criar conta</button>
     </div>
 

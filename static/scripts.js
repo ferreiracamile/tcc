@@ -45,11 +45,6 @@ function entrarHome(){
     window.location.href = "home.html";
 }
 
-function entrar() {
-    alert("Login realizado");
-    window.location = "home.html";
-}
-
 function criarConta() {
     window.location = "criar-conta.html";
 }

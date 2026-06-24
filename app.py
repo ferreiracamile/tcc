@@ -1,4 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
+import mysql.connector
+
 app = Flask(__name__)
 
 @app.route("/")
@@ -9,9 +11,30 @@ def login():
 def loginhtml():
     return render_template ("login.html")
 
-@app.route("/home.html")
+@app.route("/home.html", methods=['POST', 'GET'])
 def home():
-    return render_template ("home.html")
+    
+    senha_digitada = request.form.get('senha')
+
+    conexao = mysql.connector.connect(
+        host='localhost',
+        user='root',
+        password='',
+        port=3306,
+        database='almoxarifado'
+    )
+
+    cursor = conexao.cursor()
+    cursor.execute("SELECT senha FROM usuarios WHERE usuario = 'admin'")
+    resultado = cursor.fetchone()
+    
+    print(resultado[0])
+
+    if senha_digitada == resultado[0]:
+        return render_template ("home.html")
+    
+    return "Credenciais invalidas"
+
 @app.route("/entrada-saida.html")
 def entradasaida():
     return render_template ("entrada-saida.html")
@@ -24,115 +47,10 @@ def novositens():
 def administrador():
     return render_template ("/administrador.html")
 
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', debug=True)
-
-app.secret_key = "senha_super_secreta"
-
-usuarios = {
-    "admin": {
-        "senha": "123",
-        "adm": True
-    },
-    "user": {
-        "senha": "123",
-        "adm": False
-    }
-}
-
-@app.route("/")
-def login():
-    return render_template("login.html")
-
-@app.route("/logar", methods=["POST"])
-def logar():
-
-    usuario = request.form.get("usuario")
-    senha = request.form.get("senha")
-    adm = request.form.get("adm")
-
-    # verifica se usuário existe
-    if usuario in usuarios:
-
-        # verifica senha
-        if usuarios[usuario]["senha"] == senha:
-
-            # salva sessão
-            session["usuario"] = usuario
-            session["adm"] = usuarios[usuario]["adm"]
-
-            # se for ADM
-            if usuarios[usuario]["adm"]:
-                return redirect(url_for("administrador"))
-
-            # usuário normal
-            return redirect(url_for("home"))
-
-    return "Usuário ou senha inválidos"
-
-@app.route("/home.html")
-def home():
-
-    # verifica login
-    if "usuario" not in session:
-        return redirect(url_for("login"))
-
-    return render_template("home.html")
-
-@app.route("/administrador.html")
-def administrador():
-
-    # verifica login
-    if "usuario" not in session:
-        return redirect(url_for("login"))
-
-    # verifica ADM
-    if not session.get("adm"):
-        return "Acesso negado"
-
-    return render_template("administrador.html")
-
-@app.route("/entrada-saida.html")
-def entradasaida():
-
-    if "usuario" not in session:
-        return redirect(url_for("login"))
-
-    return render_template("entrada-saida.html")
-
-@app.route("/novos-itens.html")
-def novositens():
-
-    if "usuario" not in session:
-        return redirect(url_for("login"))
-
-    return render_template("novos-itens.html")
-
 @app.route("/criar-conta.html")
 def criarconta():
     return render_template("criar-conta.html")
 
-@app.route("/cadastrar", methods=["POST"])
-def cadastrar():
-
-    usuario = request.form.get("usuario")
-    senha = request.form.get("senha")
-    email = request.form.get("email")
-
-    # cria usuário
-    usuarios[usuario] = {
-        "senha": senha,
-        "adm": False
-    }
-
-    return redirect(url_for("login"))
-
-@app.route("/logout")
-def logout():
-
-    session.clear()
-
-    return redirect(url_for("login"))
-
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)
+
