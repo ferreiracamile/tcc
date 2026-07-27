@@ -1,0 +1,146 @@
+/* Estilo do Projeto TCC SENAI - Almoxarifado */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+}
+
+/* Header / Navbar Topo */
+.navbar {
+    background-color: #0054A6; /* Azul SENAI */
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.menu {
+    background-color: #003366;
+    padding: 10px;
+    display: flex;
+    gap: 15px;
+}
+
+.menu a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+.menu a:hover, .menu a.ativo {
+    background-color: #F37021; /* Laranja SENAI */
+}
+
+/* Conteudo Principal */
+.container {
+    padding: 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.box {
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #0054A6;
+    margin-top: 0;
+}
+
+/* Tabelas simples */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #0054A6;
+    color: white;
+    padding: 10px;
+    text-align: left;
+}
+
+td {
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Formularios */
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+input[type="text"], input[type="number"], input[type="password"], input[type="url"], select, textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Botões */
+.btn {
+    background-color: #0054A6;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.btn:hover {
+    background-color: #003366;
+}
+
+.btn-laranja {
+    background-color: #F37021;
+}
+
+.btn-laranja:hover {
+    background-color: #d95a0c;
+}
+
+.btn-vermelho {
+    background-color: #dc3545;
+}
+
+.btn-vermelho:hover {
+    background-color: #a71d2a;
+}
+
+/* Mensagens de Alerta */
+.mensagem {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+.sucesso { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+.erro { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+.aviso { background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; }

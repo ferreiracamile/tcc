@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Criar Conta ADM - Almoxarifado SENAI</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../static/scripts.js"></script>
+</head>
+<body>
+
+<div class="navbar">
+    <h1>SENAI - Almoxarifado</h1>
+    <div>
+        Usuário: <b>{{ session.get('usuario') }}</b> ({{ session.get('funcao') }})
+    </div>
+</div>
+
+<div class="menu">
+    <a href="/home">Home</a>
+    <a href="/entrada-saida">Entrada e Saída</a>
+    <a href="/novos-itens">Novos Itens</a>
+    <a href="/historico">Histórico de Movimentação</a>
+    {% if session.get('funcao') == 'admin' %}
+        <a href="/gerenciar-estoque">Gerenciar Estoque (CSV/Zerar)</a>
+        <a href="/criar-conta" class="ativo">Criar Conta ADM</a>
+    {% endif %}
+    <a href="/logout" style="float: right;">Sair</a>
+</div>
+
+<div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="mensagem {{ 'sucesso' if category == 'success' else 'erro' }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="box" style="max-width: 500px; margin: 20px auto;">
+        <h2>Criar Nova Conta no Banco</h2>
+        <form action="/criar-conta" method="POST">
+            <label>Nome do Usuário:</label>
+            <input type="text" name="usuario" placeholder="Ex: joao" required>
+
+            <label>Senha:</label>
+            <input type="password" name="senha" placeholder="Digite a senha" required>
+
+            <label>Função / Permissão:</label>
+            <select name="funcao" required>
+                <option value="user">Usuário Comum</option>
+                <option value="admin">Administrador</option>
+            </select>
+
+            <button type="submit" class="btn" style="margin-top: 15px; width: 100%;">Cadastrar Usuário</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

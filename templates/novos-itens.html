@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Novos Itens - Almoxarifado SENAI</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../static/scripts.js"></script>
+</head>
+<body>
+
+<div class="navbar">
+    <h1>SENAI - Almoxarifado</h1>
+    <div>
+        Usuário: <b>{{ session.get('usuario') }}</b> ({{ session.get('funcao') }})
+    </div>
+</div>
+
+<div class="menu">
+    <a href="/home">Home</a>
+    <a href="/entrada-saida">Entrada e Saída</a>
+    <a href="/novos-itens" class="ativo">Novos Itens</a>
+    <a href="/historico">Histórico de Movimentação</a>
+    {% if session.get('funcao') == 'admin' %}
+        <a href="/gerenciar-estoque">Gerenciar Estoque (CSV/Zerar)</a>
+        <a href="/criar-conta">Criar Conta ADM</a>
+    {% endif %}
+    <a href="/logout" style="float: right;">Sair</a>
+</div>
+
+<div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="mensagem {{ 'sucesso' if category == 'success' else 'erro' }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="box">
+        <h2>Cadastrar Novo Item no Estoque</h2>
+        <form action="/novos-itens" method="POST">
+            <label>Nome do Item:</label>
+            <input type="text" name="nome" placeholder="Ex: Chave de Fenda" required>
+
+            <label>Quantidade Inicial:</label>
+            <input type="number" name="qntd" min="0" required>
+
+            <label>Estoque Mínimo:</label>
+            <input type="number" name="estoque_minimo" min="0" required>
+
+            <label>Categoria:</label>
+            <select name="categoria">
+                <option value="Mecânica">Mecânica</option>
+                <option value="Elétrica">Elétrica</option>
+                <option value="Geral">Geral</option>
+            </select>
+
+            <label>Preço Unitário (R$):</label>
+            <input type="number" name="preco" step="0.01" min="0">
+
+            <label>URL da Foto:</label>
+            <input type="url" name="foto" placeholder="http://...">
+
+            <label>Descrição:</label>
+            <textarea name="descricao" rows="2"></textarea>
+
+            <button type="submit" class="btn" style="margin-top: 15px;">Cadastrar Item</button>
+        </form>
+    </div>
+
+    <div class="box">
+        <h2>Itens Cadastrados</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Categoria</th>
+                    <th>Quantidade</th>
+                    <th>Estoque Min.</th>
+                    <th>Preço</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in itens %}
+                <tr>
+                    <td>{{ item[0] }}</td>
+                    <td>{{ item[1] }}</td>
+                    <td>{{ item[7] }}</td>
+                    <td>{{ item[2] }}</td>
+                    <td>{{ item[3] }}</td>
+                    <td>R$ {{ "%.2f"|format(item[5]) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
