@@ -20,11 +20,11 @@ def get_db():
         try:
             import mysql.connector
             conn = mysql.connector.connect(
-                host='localhost',
-                user='root',
-                password='',
+                host=os.getenv("DB_HOST","db_almox"),
+                user=os.getenv("DB_USER","root"),
+                password=os.getenv("DB_PASSWORD","root"),
                 port=3306,
-                database='almoxarifado'
+                database=os.getenv("DB_NAME","almoxarifado")
             )
             return conn, 'mysql'
         except Exception as e:
