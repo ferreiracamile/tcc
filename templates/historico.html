@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Histórico de Movimentações - Almoxarifado SENAI</title>
+    <link rel="stylesheet" href="../static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../static/scripts.js"></script>
+</head>
+<body>
+
+<div class="navbar">
+    <h1>SENAI - Almoxarifado</h1>
+    <div>
+        Usuário: <b>{{ session.get('usuario') }}</b> ({{ session.get('funcao') }})
+    </div>
+</div>
+
+<div class="menu">
+    <a href="/home">Home</a>
+    <a href="/entrada-saida">Entrada e Saída</a>
+    <a href="/novos-itens">Novos Itens</a>
+    <a href="/historico" class="ativo">Histórico de Movimentação</a>
+    {% if session.get('funcao') == 'admin' %}
+        <a href="/gerenciar-estoque">Gerenciar Estoque (CSV/Zerar)</a>
+        <a href="/criar-conta">Criar Conta ADM</a>
+    {% endif %}
+    <a href="/logout" style="float: right;">Sair</a>
+</div>
+
+<div class="container">
+    <div class="box">
+        <h2>Histórico Completo de Movimentações (Banco de Dados)</h2>
+        <p>Tabela que lista quem solicitou a movimentação, qual o item, quantidade e a finalidade de destino.</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Quem Solicitou</th>
+                    <th>Tipo</th>
+                    <th>Item</th>
+                    <th>Quantidade</th>
+                    <th>Finalidade / Destino</th>
+                    <th>Data e Hora</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reg in historico %}
+                <tr>
+                    <td>#{{ reg[0] }}</td>
+                    <td><b>{{ reg[1] }}</b></td>
+                    <td>{{ reg[3] }}</td>
+                    <td>{{ reg[2] }}</td>
+                    <td>{{ reg[4] }}</td>
+                    <td>{{ reg[5] }}</td>
+                    <td>{{ reg[6] }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7" style="text-align: center;">Nenhum histórico encontrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

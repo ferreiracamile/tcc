@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Gerenciar Estoque - Almoxarifado SENAI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</head>
+<body>
+
+<div class="navbar">
+    <h1>SENAI - Almoxarifado</h1>
+    <div>
+        Usuário: <b>{{ session.get('usuario') }}</b> ({{ session.get('funcao') }})
+    </div>
+</div>
+
+<div class="menu">
+    <a href="/home">Home</a>
+    <a href="/entrada-saida">Entrada e Saída</a>
+    <a href="/novos-itens">Novos Itens</a>
+    <a href="/historico">Histórico de Movimentação</a>
+    {% if session.get('funcao') == 'admin' %}
+        <a href="/gerenciar-estoque" class="ativo">Gerenciar Estoque (CSV/Zerar)</a>
+        <a href="/criar-conta">Criar Conta ADM</a>
+    {% endif %}
+    <a href="/logout" style="float: right;">Sair</a>
+</div>
+
+<div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="mensagem {{ 'sucesso' if category == 'success' else 'erro' }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="box">
+        <h2>1 - Zerar o Banco Todo de Estoque</h2>
+        <p>Atenção: esta ação apaga todos os itens do estoque. A lista de usuários NÃO será zerada.</p>
+        <form id="form-zerar-estoque" action="/zerar-estoque" method="POST">
+            <button type="button" class="btn btn-vermelho" onclick="confirmarZerarEstoque()">ZERAR BANCO DE ESTOQUE</button>
+        </form>
+    </div>
+
+    <div class="box">
+        <h2>2 - Importar Arquivo .CSV</h2>
+        <p>Selecione um arquivo .csv para preencher o estoque no banco de dados.</p>
+        <form action="/importar-csv" method="POST" enctype="multipart/form-data" onsubmit="return confirmarImportacaoCSV()">
+            <input type="file" id="arquivo_csv" name="arquivo_csv" accept=".csv" required>
+            <br><br>
+            <button type="submit" class="btn">IMPORTAR ARQUIVO .CSV</button>
+        </form>
+    </div>
+
+    <div class="box">
+        <h2>3 - Exportar Banco Atual para .CSV</h2>
+        <p>Clique no botão abaixo para baixar o banco atual em um arquivo .csv.</p>
+        <a href="/exportar-csv" class="btn btn-laranja" style="display: inline-block; text-decoration: none;">EXPORTAR PARA .CSV</a>
+    </div>
+</div>
+
+</body>
+</html>
