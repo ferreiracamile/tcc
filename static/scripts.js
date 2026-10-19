@@ -113,19 +113,12 @@ function entrarHome(){
     window.location.href = "home.html";
 }
 
-function criarConta() {
-    window.location = "criar-conta.html";
-}
-
 function cadastrarItem() {
-
     var nome = document.getElementById("nome-item").value;
-
     if(nome == "") {
         alert("Digite o nome do item");
         return;
     }
-
     alert("Item cadastrado!");
 }
 

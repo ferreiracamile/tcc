@@ -60,4 +60,3 @@ ON DUPLICATE KEY UPDATE senha=VALUES(senha);
 -- ('Martelo de Borracha', 12, 4, 'Martelo de borracha preta 450g para montagem de bancadas', 35.00, 'https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?w=500', 'Geral'),
 -- ('Alicate Universal 8"', 20, 6, 'Alicate universal em aço carbono com cabo antiderrapante', 42.90, 'https://images.unsplash.com/photo-1530124566582-a618bc2615dc?w=500', 'Mecânica')
 -- ON DUPLICATE KEY UPDATE nome=VALUES(nome);
-

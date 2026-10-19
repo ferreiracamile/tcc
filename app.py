@@ -310,7 +310,8 @@ def historico():
     cursor.execute("""
         SELECT id, usuario, item_nome, tipo, quantidade, finalidade, data_hora 
         FROM historico 
-        ORDER BY id DESC
+        ORDER BY id DESC 
+        LIMIT 100
     """)
     registros = cursor.fetchall()
 
@@ -487,8 +488,6 @@ def administrador():
 # ========================================================
 # ROTAS EXTERNAS / API REST (PARA EXPO GO / REACT NATIVE)
 # ========================================================
-# Estas rotas retornam JSON puro e aceitam requisições externas
-# do seu aplicativo mobile desenvolvido com Expo Go / React Native.
 
 @app.route("/api/login", methods=['POST'])
 def api_login():
