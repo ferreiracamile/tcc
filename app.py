@@ -39,7 +39,7 @@ def adicionar_headers_cors(response):
 # ========================================================
 # As variáveis abaixo utilizam os valores padrão para rodar localmente,
 # mas também podem receber configurações via variáveis de ambiente (Docker).
-DB_HOST = os.getenv("DB_HOST", "localhost")
+DB_HOST = os.getenv("DB_HOST", "127.0.0.1")
 DB_USER = os.getenv("DB_USER", "root")
 DB_PASSWORD = os.getenv("DB_PASSWORD", "root")
 DB_NAME = os.getenv("DB_NAME", "almoxarifado")
@@ -64,22 +64,32 @@ def verificar_senha(senha_digitada, hash_armazenado):
     ao hash seguro salvo no banco de dados usando a biblioteca bcrypt.
     """
     try:
-        senha_bytes = senha_digitada.encode('utf-8')
-        hash_bytes = hash_armazenado.encode('utf-8')
+        # Garante que a senha digitada seja bytes
+        if isinstance(senha_digitada, str):
+            senha_bytes = senha_digitada.encode('utf-8')
+        else:
+            senha_bytes = senha_digitada
+
+        # Garante que o hash armazenado seja bytes (se vier str, converte)
+        if isinstance(hash_armazenado, str):
+            hash_bytes = hash_armazenado.encode('utf-8')
+        elif isinstance(hash_armazenado, (bytes, bytearray)):
+            hash_bytes = bytes(hash_armazenado)
+        else:
+            hash_bytes = str(hash_armazenado).encode('utf-8')
+
         return bcrypt.checkpw(senha_bytes, hash_bytes)
-    except Exception:
+    except Exception as e:
+        # Se der erro, imprime no terminal para você debugar o que aconteceu
+        print(f"Erro interno na validação do Bcrypt: {e}")
         return False
 
 def gerar_hash_senha(senha):
-    """
-    Gera um hash seguro com salt para a senha informada usando bcrypt.
-    Utilizado no cadastro de novos usuários.
-    """
-    senha_bytes = senha.encode('utf-8')
-    salt = bcrypt.gensalt()
-    hash_seguro = bcrypt.hashpw(senha_bytes, salt)
-    return hash_seguro.decode('utf-8')
-
+        senha_bytes = senha.encode('utf-8')
+        salt = bcrypt.gensalt(12)  # Força o custo 12 que você usa no sistema
+        hash_seguro = bcrypt.hashpw(senha_bytes, salt)
+        return hash_seguro.decode('utf-8')
+    
 # ========================================================
 # CONTROLE DE ACESSO (DECORADORES PARA APLICAÇÃO WEB)
 # ========================================================
@@ -109,43 +119,104 @@ def admin_required(f):
 # ROTAS DA APLICAÇÃO WEB (SESSÃO E TEMPLATES HTML)
 # ========================================================
 
-@app.route("/", methods=['GET', 'POST'])
-@app.route("/login.html", methods=['GET', 'POST'])
-@app.route("/login", methods=['GET', 'POST'])
+
+@app.route("/", methods=["GET", "POST"])
+@app.route("/login.html", methods=["GET", "POST"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    """Tela de autenticação do usuário no navegador."""
-    if request.method == 'POST':
-        usuario = request.form.get('usuario')
-        senha = request.form.get('senha')
+    """Autenticação web com verificação bcrypt e tratamento de erros."""
 
-        conn = get_db()
-        cursor = conn.cursor()
+    if request.method == "POST":
+        usuario = (request.form.get("usuario") or "").strip()
+        senha = request.form.get("senha") or ""
 
-        # Busca o usuário no banco de dados
-        cursor.execute("SELECT usuario, senha, funcao FROM usuarios WHERE usuario = %s", (usuario,))
-        user = cursor.fetchone()
+        if not usuario or not senha:
+            return render_template(
+                "login.html",
+                erro="Informe o usuário e a senha."
+            )
 
-        cursor.close()
-        conn.close()
+        conn = None
+        cursor = None
 
-        # Se encontrou o usuário, valida a senha com bcrypt
-        if user:
-            db_usuario = user[0]
-            db_senha_hash = user[1]
-            db_funcao = user[2]
+        try:
+            conn = get_db()
+            cursor = conn.cursor()
 
-            if verificar_senha(senha, db_senha_hash):
-                # Autenticação válida: salva os dados do usuário na sessão
-                session['usuario'] = db_usuario
-                session['funcao'] = db_funcao
-                flash(f'Bem-vindo, {db_usuario}!', 'success')
-                return redirect(url_for('home'))
+            cursor.execute(
+                """
+                SELECT usuario, senha, funcao
+                FROM usuarios
+                WHERE usuario = %s
+                LIMIT 1
+                """,
+                (usuario,)
+            )
 
-        # Se o usuário não existe ou a senha está incorreta
-        flash('Usuário ou senha inválidos!', 'danger')
-        return render_template("login.html", erro="Credenciais inválidas")
+            user = cursor.fetchone()
+
+        except mysql.connector.Error:
+            app.logger.exception(
+                "Erro ao consultar o usuário no banco de dados."
+            )
+
+            return render_template(
+                "login.html",
+                erro="Erro ao acessar o banco de dados."
+            ), 500
+
+        finally:
+            if cursor is not None:
+                cursor.close()
+
+            if conn is not None and conn.is_connected():
+                conn.close()
+
+        if user is None:
+            flash("Usuário ou senha inválidos!", "danger")
+            return render_template(
+                "login.html",
+                erro="Credenciais inválidas"
+            )
+
+        db_usuario, db_hash, db_funcao = user
+
+        # Aceita hashes retornados pelo MySQL como str ou bytes.
+        try:
+            if isinstance(db_hash, str):
+                hash_bytes = db_hash.encode("utf-8")
+            else:
+                hash_bytes = bytes(db_hash)
+
+            senha_valida = bcrypt.checkpw(
+                senha.encode("utf-8"),
+                hash_bytes
+            )
+
+        except (ValueError, TypeError, AttributeError):
+            app.logger.warning(
+                "Hash bcrypt inválido para o usuário %s.",
+                db_usuario
+            )
+            senha_valida = False
+
+        if not senha_valida:
+            flash("Usuário ou senha inválidos!", "danger")
+            return render_template(
+                "login.html",
+                erro="Credenciais inválidas"
+            )
+
+        # Login válido: salva os dados na sessão.
+        session.clear()
+        session["usuario"] = db_usuario
+        session["funcao"] = db_funcao
+
+        flash(f"Bem-vindo, {db_usuario}!", "success")
+        return redirect(url_for("home"))
 
     return render_template("login.html")
+
 
 @app.route("/logout")
 def logout():
