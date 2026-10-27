@@ -41,7 +41,7 @@ def adicionar_headers_cors(response):
 # mas também podem receber configurações via variáveis de ambiente (Docker).
 DB_HOST = os.getenv("DB_HOST", "127.0.0.1")
 DB_USER = os.getenv("DB_USER", "root")
-DB_PASSWORD = os.getenv("DB_PASSWORD", "root")
+DB_PASSWORD = os.getenv("DB_PASSWORD", "")
 DB_NAME = os.getenv("DB_NAME", "almoxarifado")
 DB_PORT = int(os.getenv("DB_PORT", 3306))
 
@@ -52,7 +52,8 @@ def get_db():
         user=DB_USER,
         password=DB_PASSWORD,
         database=DB_NAME,
-        port=DB_PORT
+        port=DB_PORT,
+        auth_plugin='mysql_native_password'
     )
 
 # ========================================================
@@ -155,14 +156,21 @@ def login():
 
             user = cursor.fetchone()
 
-        except mysql.connector.Error:
+        except mysql.connector.Error as err:
+            # AJUSTE AQUI: Captura o erro real e exibe no terminal do VS Code / Prompt
+            print("\n" + "="*50)
+            print(f"ERRO DE CONEXÃO COM O MYSQL: {err}")
+            print(f"Tentando conectar em: {DB_HOST}:{DB_PORT} com o usuário '{DB_USER}'")
+            print("="*50 + "\n")
+
             app.logger.exception(
                 "Erro ao consultar o usuário no banco de dados."
             )
 
+            # Também mostra o erro técnico temporariamente na tela do navegador
             return render_template(
                 "login.html",
-                erro="Erro ao acessar o banco de dados."
+                erro=f"Erro de Banco de Dados: {err}"
             ), 500
 
         finally:

@@ -11,7 +11,7 @@ USE almoxarifado;
 -- 1. Tabela de Estoque
 CREATE TABLE IF NOT EXISTS estoque (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    nome VARCHAR(255) NOT NULL,
+    nome VARCHAR(100) NOT NULL,
     qntd INT NOT NULL DEFAULT 0,
     estoque_minimo INT NOT NULL DEFAULT 0,
     descricao TEXT,
@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS estoque (
 -- 2. Tabela de Usuários (Autenticação via Bcrypt)
 CREATE TABLE IF NOT EXISTS usuarios (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    usuario VARCHAR(255) UNIQUE NOT NULL,
+    usuario VARCHAR(100) UNIQUE NOT NULL,
     senha VARCHAR(255) NOT NULL,
     funcao VARCHAR(50) NOT NULL DEFAULT 'user'
 );
@@ -31,13 +31,24 @@ CREATE TABLE IF NOT EXISTS usuarios (
 -- 3. Tabela de Histórico de Movimentações
 CREATE TABLE IF NOT EXISTS historico (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    usuario VARCHAR(255) NOT NULL,
-    item_nome VARCHAR(255) NOT NULL,
+    usuario VARCHAR(100) NOT NULL,
+    item_nome VARCHAR(100) NOT NULL,
     tipo VARCHAR(50) NOT NULL,
     quantidade INT NOT NULL,
-    finalidade VARCHAR(255),
+    finalidade VARCHAR(150),
     data_hora DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
+INSERT INTO usuarios (usuario, senha, funcao) 
+VALUES 
+    ('admin', '$2b$12$ZttIbkUMAX682KVIbSJmmuu.PIt9huqBrSVQx5P9K.g.WH6pr0b0.', 'admin'),
+    ('usuario', '$2b$12$ZttIbkUMAX682KVIbSJmmuu.PIt9huqBrSVQx5P9K.g.WH6pr0b0.', 'user')
+ON DUPLICATE KEY UPDATE senha=VALUES(senha);
+
+INSERT INTO usuarios (usuario, senha, funcao) 
+VALUES ('chico', '$2b$12$ZttIbkUMAX682KVIbSJmmuu.PIt9huqBrSVQx5P9K.g.WH6pr0b0.', 'admin')
+AS novos_dados 
+ON DUPLICATE KEY UPDATE senha = novos_dados.senha;
 
 -- ========================================================
 -- DADOS INICIAIS
