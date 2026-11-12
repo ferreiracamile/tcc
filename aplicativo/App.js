@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList, Alert } from 'react-native';
 
 // IP DO SEU COMPUTADOR ONDE O FLASK ESTÁ RODANDO
-const IP = '10.154.20.130';
+const IP = '10.154.20.219';
 
 export default function App() {
   // Controle de Login
